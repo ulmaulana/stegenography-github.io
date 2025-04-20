@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <title>QuantiSeal - Steganografi</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/steganography.css">
+</head>
+
+<body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html"><h2>Quanti<em>Seal</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Beranda
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="products.html">Produk Kami</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">Tentang Kami</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="steganography.html">Steganografi</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Steganografi</h1>
+            <span>Sembunyikan pesan rahasia Anda dalam gambar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steganography-container">
+        <div class="container">
+            <div class="method-selector">
+                <button class="method-btn active" data-method="dct">
+                    <i class="fas fa-image"></i>
+                    <span>Metode DCT</span>
+                </button>
+                <button class="method-btn" data-method="dwt">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Metode DWT</span>
+                </button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="encode">
+                    <i class="fas fa-lock"></i>
+                    <span>Sembunyikan Pesan</span>
+                </button>
+                <button class="tab-btn" data-tab="decode">
+                    <i class="fas fa-key"></i>
+                    <span>Ekstrak Pesan</span>
+                </button>
+            </div>
+
+            <div class="tab-content" id="encode-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-upload"></i>
+                        <h3>Unggah Gambar</h3>
+                    </div>
+                    <div class="upload-section">
+                        <div class="file-upload">
+                            <label for="imageInput" class="file-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Pilih Gambar</span>
+                                <small>atau seret & lepas</small>
+                            </label>
+                            <input type="file" id="imageInput" accept="image/*">
+                        </div>
+                        <div id="imagePreview" class="image-preview">
+                            <div class="placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Pratinjau gambar akan muncul di sini</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-comment-alt"></i>
+                        <h3>Pesan Rahasia</h3>
+                    </div>
+                    <div class="message-section">
+                        <textarea id="messageInput" placeholder="Masukkan pesan yang ingin disembunyikan..."></textarea>
+                        <div class="message-info">
+                            <span id="charCount">0</span> karakter
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card dct-options">
+                    <div class="card-header">
+                        <i class="fas fa-cog"></i>
+                        <h3>Pengaturan</h3>
+                    </div>
+                    <div class="options-section">
+                        <div class="option">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="encryptMessage" checked>
+                                <span class="checkmark"></span>
+                                <span class="label-text">Enkripsi pesan</span>
+                            </label>
+                        </div>
+                        <div class="option">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="addNoise" checked>
+                                <span class="checkmark"></span>
+                                <span class="label-text">Tambahkan noise untuk keamanan</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="steganizeBtn" class="filled-button">
+                    <i class="fas fa-magic"></i>
+                    <span>Sembunyikan Pesan</span>
+                </button>
+            </div>
+
+            <div class="tab-content" id="decode-tab" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-upload"></i>
+                        <h3>Unggah Gambar Steganografi</h3>
+                    </div>
+                    <div class="upload-section">
+                        <div class="file-upload">
+                            <label for="decodeImageInput" class="file-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Pilih Gambar</span>
+                                <small>atau seret & lepas</small>
+                            </label>
+                            <input type="file" id="decodeImageInput" accept="image/*">
+                        </div>
+                        <div id="decodeImagePreview" class="image-preview">
+                            <div class="placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Pratinjau gambar akan muncul di sini</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="extractBtn" class="filled-button">
+                    <i class="fas fa-key"></i>
+                    <span>Ekstrak Pesan</span>
+                </button>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Pesan yang Diekstrak</h3>
+                    </div>
+                    <div class="result-section">
+                        <textarea id="extractedMessage" readonly placeholder="Pesan yang diekstrak akan muncul di sini..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-container" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Hasil Steganografi</h3>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                    <div class="download-section">
+                        <a id="downloadLink" class="filled-button" download="gambar_stego.png">
+                            <i class="fas fa-download"></i>
+                            <span>Unduh Gambar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-info-circle"></i>
+                        <h3>Informasi</h3>
+                    </div>
+                    <div class="info-content">
+                        <div class="usage-info">
+                            <h4>Petunjuk Penggunaan:</h4>
+                            <div class="usage-section">
+                                <h5>Persyaratan Gambar:</h5>
+                                <ul>
+                                    <li>Format gambar yang didukung: PNG, JPEG, BMP</li>
+                                    <li>Resolusi minimal yang direkomendasikan: 512x512 piksel</li>
+                                    <li>Ukuran file maksimal: 5MB</li>
+                                    <li>Rasio aspek: 1:1 (persegi) untuk hasil terbaik</li>
+                                </ul>
+                            </div>
+                            <div class="usage-section">
+                                <h5>Tips Pemilihan Gambar:</h5>
+                                <ul>
+                                    <li>Pilih gambar dengan latar belakang kompleks atau bertekstur</li>
+                                    <li>Hindari gambar dengan area solid atau gradien halus</li>
+                                    <li>Gunakan gambar dengan kontras dan detail yang baik</li>
+                                    <li>Pastikan gambar tidak terlalu terang atau terlalu gelap</li>
+                                </ul>
+                            </div>
+                            <div class="usage-section">
+                                <h5>Panduan Penyembunyian Pesan:</h5>
+                                <ul>
+                                    <li>Panjang pesan maksimal: 1000 karakter</li>
+                                    <li>Gunakan kombinasi huruf, angka, dan simbol</li>
+                                    <li>Hindari karakter khusus yang tidak didukung</li>
+                                    <li>Simpan pesan asli sebelum menyembunyikan</li>
+                                </ul>
+                            </div>
+                            <div class="usage-section">
+                                <h5>Penyimpanan dan Penggunaan:</h5>
+                                <ul>
+                                    <li>Simpan hasil steganografi dalam format PNG</li>
+                                    <li>Jangan mengompresi atau mengubah ukuran gambar hasil</li>
+                                    <li>Beri nama file yang mudah diingat</li>
+                                    <li>Simpan salinan gambar asli dan hasil steganografi</li>
+                                </ul>
+                            </div>
+                            <div class="usage-section">
+                                <h5>Peringatan Penting:</h5>
+                                <ul>
+                                    <li>Jangan menggunakan gambar yang sudah mengandung steganografi</li>
+                                    <li>Hindari mengedit gambar hasil steganografi</li>
+                                    <li>Jangan membagikan gambar asli bersamaan dengan hasil steganografi</li>
+                                    <li>Pastikan untuk mencatat metode yang digunakan (DCT/DWT)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="comparison-info">
+                            <h4>Perbandingan Metode:</h4>
+                            <table class="comparison-table">
+                                <tr>
+                                    <th>Aspek</th>
+                                    <th>DCT</th>
+                                    <th>DWT</th>
+                                </tr>
+                                <tr>
+                                    <td>Kapasitas</td>
+                                    <td>Sedang</td>
+                                    <td>Tinggi</td>
+                                </tr>
+                                <tr>
+                                    <td>Ketahanan Kompresi</td>
+                                    <td>Tinggi</td>
+                                    <td>Rendah</td>
+                                </tr>
+                                <tr>
+                                    <td>Ketahanan Noise</td>
+                                    <td>Sedang</td>
+                                    <td>Tinggi</td>
+                                </tr>
+                                <tr>
+                                    <td>Kompleksitas</td>
+                                    <td>Rendah</td>
+                                    <td>Tinggi</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <p>Copyright &copy; 2024 Alat Steganografi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/owl.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/accordions.js"></script>
+
+    <!-- Steganography Scripts -->
+    <script src="assets/js/steganography/common.js"></script>
+    <script src="assets/js/steganography/dct.js"></script>
+    <script src="assets/js/steganography/dwt.js"></script>
+    <script src="assets/js/steganography/main.js"></script>
+</body>
+</html> 

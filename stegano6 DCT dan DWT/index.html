@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganografi Web - DCT & DWT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                <h1>Steganografi Web</h1>
+            </div>
+            <p class="subtitle">Sembunyikan pesan rahasia Anda dalam gambar tanpa terlihat</p>
+        </header>
+
+        <div class="method-selector">
+            <button class="method-btn active" data-method="dct">
+                <i class="fas fa-image"></i>
+                <span>DCT Method</span>
+            </button>
+            <button class="method-btn" data-method="dwt">
+                <i class="fas fa-wave-square"></i>
+                <span>DWT Method</span>
+            </button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="encode">
+                <i class="fas fa-lock"></i>
+                <span>Sembunyikan Pesan</span>
+            </button>
+            <button class="tab-btn" data-tab="decode">
+                <i class="fas fa-key"></i>
+                <span>Ekstrak Pesan</span>
+            </button>
+        </div>
+
+        <div class="tab-content" id="encode-tab">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-upload"></i>
+                    <h3>Upload Gambar</h3>
+                </div>
+                <div class="upload-section">
+                    <div class="file-upload">
+                        <label for="imageInput" class="file-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Pilih Gambar</span>
+                            <small>atau drag & drop</small>
+                        </label>
+                        <input type="file" id="imageInput" accept="image/*">
+                    </div>
+                    <div id="imagePreview" class="image-preview">
+                        <div class="placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Preview gambar akan muncul di sini</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-comment-alt"></i>
+                    <h3>Pesan Rahasia</h3>
+                </div>
+                <div class="message-section">
+                    <textarea id="messageInput" placeholder="Masukkan pesan yang ingin disembunyikan..."></textarea>
+                    <div class="message-info">
+                        <span id="charCount">0</span> karakter
+                    </div>
+                </div>
+            </div>
+
+            <div class="card dct-options">
+                <div class="card-header">
+                    <i class="fas fa-cog"></i>
+                    <h3>Pengaturan</h3>
+                </div>
+                <div class="options-section">
+                    <div class="option">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="encryptMessage" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Enkripsi pesan</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="addNoise" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Tambahkan noise untuk keamanan</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button id="steganizeBtn" class="primary-btn">
+                <i class="fas fa-magic"></i>
+                <span>Sembunyikan Pesan</span>
+            </button>
+        </div>
+
+        <div class="tab-content" id="decode-tab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-upload"></i>
+                    <h3>Upload Gambar Steganografi</h3>
+                </div>
+                <div class="upload-section">
+                    <div class="file-upload">
+                        <label for="decodeImageInput" class="file-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Pilih Gambar</span>
+                            <small>atau drag & drop</small>
+                        </label>
+                        <input type="file" id="decodeImageInput" accept="image/*">
+                    </div>
+                    <div id="decodeImagePreview" class="image-preview">
+                        <div class="placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Preview gambar akan muncul di sini</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="extractBtn" class="primary-btn">
+                <i class="fas fa-key"></i>
+                <span>Ekstrak Pesan</span>
+            </button>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Pesan yang Diekstrak</h3>
+                </div>
+                <div class="result-section">
+                    <textarea id="extractedMessage" readonly placeholder="Pesan yang diekstrak akan muncul di sini..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-container" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Hasil Steganografi</h3>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="download-section">
+                    <a id="downloadLink" class="download-btn" download="stego_image.png">
+                        <i class="fas fa-download"></i>
+                        <span>Unduh Gambar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Informasi</h3>
+                </div>
+                <div class="info-content">
+                    <p class="dct-info">Aplikasi ini menggunakan teknik steganografi DCT untuk menyembunyikan pesan dalam gambar.</p>
+                    <p class="dwt-info" style="display: none;">Aplikasi ini menggunakan teknik steganografi DWT untuk menyembunyikan pesan dalam gambar.</p>
+                    <p>Untuk hasil terbaik, gunakan gambar PNG dengan resolusi yang cukup tinggi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/dct.js"></script>
+    <script src="js/dwt.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
